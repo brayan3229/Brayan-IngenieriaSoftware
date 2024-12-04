@@ -1,10 +1,10 @@
 import sqlite3
 
-# Conexión a la base de datos (crea el archivo si no existe)
+
 conn = sqlite3.connect('autoconocimiento.db')
 cursor = conn.cursor()
 
-# Crear la tabla 'metricas' si no existe
+
 create_table_query = """
 CREATE TABLE IF NOT EXISTS metricas (
     metric_id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -18,14 +18,14 @@ CREATE TABLE IF NOT EXISTS metricas (
 """
 
 try:
-    # Ejecutar la consulta
+    
     cursor.execute(create_table_query)
     conn.commit()
     print("La tabla 'metricas' se ha creado exitosamente.")
 except sqlite3.Error as e:
     print(f"Error al crear la tabla: {e}")
 
-# Función para insertar datos en la tabla 'metricas'
+
 def insertar_datos(conn, plan_id, metric_type, current_value, target_value):
     cursor = conn.cursor()
     insert_query = """
