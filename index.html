@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Creación de una base datos con Python</h1>
+    
+
+<li>Conexión a la base de datos (crea el archivo si no existe)</li>
+import sqlite3<br>
+conn = sqlite3.connect('autoconocimiento.db')<br
+<p>cursor = conn.cursor() </p>
+<img src="primera.png" alt="">
+<li>Crear la tabla 'metricas' si no existe</li>
+create_table_query = """<br>
+CREATE TABLE IF NOT EXISTS metricas (<br>
+    metric_id INTEGER PRIMARY KEY AUTOINCREMENT,<br>
+    plan_id INTEGER,<br>
+    metric_type TEXT, -- 'financial', 'time', 'impact'<br>
+    current_value DECIMAL(10,2),<br>
+    target_value DECIMAL(10,2),<br>
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,<br>
+    FOREIGN KEY (plan_id) REFERENCES autoconocimiento(plan_id) <br>
+);<br>
+"""<br>
+<img src="segunda.png" alt="">
+try: <br>
+    <li>Ejecutar la consulta</li>
+    cursor.execute(create_table_query) <br>
+    conn.commit() <br>
+    print("La tabla 'metricas' se ha creado exitosamente.") <br>
+except sqlite3.Error as e: <br>
+    print(f"Error al crear la tabla: {e}")  <br>
+
+<li>Función para insertar datos en la tabla 'metricas'</li>
+def insertar_datos(conn, plan_id, metric_type, current_value, target_value): <br>
+    cursor = conn.cursor() <br>
+    insert_query = """ <br>
+    INSERT INTO metricas (plan_id, metric_type, current_value, target_value) <br>
+    VALUES (?, ?, ?, ?); <br>
+    """ <br>
+    try: <br>
+        cursor.execute(insert_query, (plan_id, metric_type, current_value, target_value)) <br>
+        conn.commit() <br>
+        print("Datos insertados correctamente.") <br>
+    except sqlite3.Error as e: <br>
+        print(f"Error al insertar datos: {e}") <br>
+<img src="tercera.png" alt="">
+<li>Función para visualizar los datos de la tabla 'metricas'</li>
+def visualizar_datos(conn):<br>
+    cursor = conn.cursor()<br>
+    select_query = "SELECT * FROM metricas;"<br>
+    try:<br>
+        cursor.execute(select_query)<br>
+        rows = cursor.fetchall()<br>
+        print("Contenido de la tabla 'metricas':")<br>
+        for row in rows:<br>
+            print(row)<br>
+    except sqlite3.Error as e:<br>
+        print(f"Error al recuperar datos: {e}")<br>
+<img src="cuarta.png" alt="">
+<li>Insertar datos de ejemplo</li>
+insertar_datos(conn, plan_id=1, metric_type='financial', current_value=10000, target_value=500000)<br>
+insertar_datos(conn, plan_id=2, metric_type='time', current_value=500, target_value=10000)<br>
+insertar_datos(conn, plan_id=3, metric_type='impact', current_value=200, target_value=8000)<br>
+
+<li>Visualizar datos almacenados</li>
+visualizar_datos(conn)<br>
+
+<li>Cerrar la conexión al final del programa</li>
+conn.close() <br>
+<img src="quinta.png" alt="">
+<h2>Visualización en visual studio</h2>
+<img src="sexta.png" alt="">
+<h1>Hola mundo</h1>
+</body>
+</html>
